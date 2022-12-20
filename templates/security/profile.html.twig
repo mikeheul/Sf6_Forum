@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block body %}
+<h1 class="">My profile</h1>
+
+Pseudo : {{ app.user.pseudo }} <br>
+Email : {{ app.user.email }} <br>
+Topics : {{ app.user.topics | length }} <br>
+Posts : {{ app.user.posts | length }} <br>
+Grade : {{ app.user.grade }} <br>
+
+<a href="" class="btn btn-primary mt-3">Reset my Password</a>
+
+{% endblock %}

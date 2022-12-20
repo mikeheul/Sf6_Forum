@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+<h1 class="">Welcome</h1>
+
+<h2 class="">Categories</h2>
+<div class="container-box">
+    {% for category in categories %}
+    <a class="" href="{{ path("topics", {"id": category.id}) }}">
+        <div class="card-box">
+            <div class="card-info">{{ category.topics | length }}</div>
+            {{ category }}
+        </div>
+    </a>
+    {% endfor %}
+</div>
+
+{% endblock %}
