@@ -19,17 +19,17 @@ class Topic
     #[ORM\Column(length: 150)]
     private ?string $title = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, options:["default" => "CURRENT_TIMESTAMP"])]
     private ?\DateTimeInterface $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'topics')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options:["default" => false])]
     private ?bool $locked = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options:["default" => false])]
     private ?bool $resolved = null;
 
     #[ORM\OneToMany(mappedBy: 'topic', targetEntity: Post::class, orphanRemoval: true)]
