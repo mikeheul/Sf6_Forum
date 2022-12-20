@@ -19,6 +19,7 @@ class ForumController extends AbstractController
     #[Route('/forum/topics/{id}', name: 'topics')]
     public function topics(ManagerRegistry $doctrine, Category $category = null, Request $request, PaginatorInterface $paginator): Response
     {
+        // si la catégorie existe
         if($category) {
             $topic = new Topic();
             $post = new Post();
