@@ -10,7 +10,7 @@
     <p class="text-danger">No topics in this category !</p>
 {% else %}
     <table class="table table-striped align-middle">
-        <thead class="thead-dark">
+        <thead class="table-dark">
             <tr>
                 <th scope="col" class="text-center">Status</th>
                 <th scope="col" class="">Topic</th>
@@ -72,8 +72,8 @@
 
 
 {% if app.user %}
-<h2>Add a new topic</h2>
-{{ form(formAddTopic) }}
+    <h2>Add a new topic</h2>
+    {{ form(formAddTopic) }}
 {% endif %}
 
 {% endblock %}

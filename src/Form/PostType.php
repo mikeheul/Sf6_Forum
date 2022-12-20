@@ -22,7 +22,7 @@ class PostType extends AbstractType
                 "label" => "Message"
 
             ])
-            ->add('submit', SubmitType::class, [
+            ->add('post', SubmitType::class, [
                 "attr" => ["class" => "btn btn-success mt-3 mb-3"]
             ])
         ;

@@ -25,7 +25,7 @@ class TopicType extends AbstractType
                     "rows" => 8    
                 ]
             ])
-            ->add('submit', SubmitType::class, [
+            ->add('add', SubmitType::class, [
                 "attr" => ["class" =>  "btn btn-success mt-3 mb-3"]
             ]);
     }
