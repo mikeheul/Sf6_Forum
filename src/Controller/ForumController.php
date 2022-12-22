@@ -76,10 +76,10 @@ class ForumController extends AbstractController
     public function editTopic(ManagerRegistry $doctrine, Topic $topic, Request $request): Response
     {
         $form = $this->createForm(TopicType::class, $topic, ['edit' => true]);
-        $em = $doctrine->getManager();
-
         $form->handleRequest($request);
+        
         if($form->isSubmitted() && $form->isValid()) {
+            $em = $doctrine->getManager();
             $em->flush();
             return $this->redirectToRoute('topics', ['id' => $topic->getCategory()->getId()]);
         }
