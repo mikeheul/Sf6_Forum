@@ -50,6 +50,16 @@ textarea {
   background: rgb(250, 250, 250) !important;
 }
 
+.btn-info-custom {
+  background: rgb(46, 97, 137);
+  transition: 0.5s;
+}
+
+.btn-info-custom:hover {
+  background: rgb(32, 70, 98);
+  color: #fff;
+}
+
 .container-fluid {
   padding-left: 0;
 }
