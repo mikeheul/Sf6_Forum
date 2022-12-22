@@ -6,6 +6,8 @@
 <h1 class="">Welcome</h1>
 
 <h2 class="">Categories</h2>
+
+{# Affichage des catégories avec label pour le nombre de topics associés #}
 <div class="container-box">
     {% for category in categories %}
     <a class="" href="{{ path("topics", {"id": category.id}) }}">

@@ -81,6 +81,7 @@
 {% block javascripts %}
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
+    // verrouillage d'un topic en Ajax
     function onClickBtnLock(event) {
         event.preventDefault();
 
@@ -88,6 +89,7 @@
         const icon = this.querySelector('i');
         const iconStatus = icon.parentNode.parentNode.parentNode.querySelector('.text-center i')
 
+        // modification des icônes + couleurs pour le verrouillage / déverrouillage
         axios.get(url)
             .then(function(response) {
                 if(icon.classList.contains('fa-lock')) {

@@ -14,10 +14,12 @@ class TopicType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        // le formulaire de création de topic inclut la création du 1er post du topic
         $builder
             ->add('title', TextType::class, [
                 "attr" => ["class" => "form-control"]
             ])
+            // le champ first_message est en mapped false pour éviter une erreur pour l'objet Topic (qui ne possède pas d'attribut "first_message")
             ->add('first_message', TextareaType::class, [
                 "mapped" => false,
                 "attr" => [

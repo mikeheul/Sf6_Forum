@@ -39,6 +39,9 @@ class CategoryRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * Afficher toutes les catégories et le nombre de topics associés
+     */
     public function allCategories()
     {
         return $this->createQueryBuilder('c')

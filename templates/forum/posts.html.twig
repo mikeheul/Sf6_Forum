@@ -4,6 +4,7 @@
 
 {% block body %}
 
+{# Fil d'Ariane pour catégorie > topic (titre) + statuts du topic (verrouillage / résolu) #}
 <h1>
     <a href="{{ path("topics", {"id": topic.category.id}) }}">{{ topic.category }}</a> > {{ topic }}
     {% if topic.locked %}
@@ -14,11 +15,13 @@
     {% endif %}
 </h1>
 
+{# Afficher les informations du topic (date + auteur) #}
 <div class="topic-info">
     <p class="m-0"><i class="fa-regular fa-calendar"></i>&nbsp;{{ topic.createdAt | date("d-m-Y H:i")  }}</p>
     <p class="m-0"><i class="fa-regular fa-user"></i>&nbsp;{{ topic.user }}</p>
 </div>
 
+{# Affichage des posts d'un topic #}
 <table class="table table-striped mt-4">
     <thead class="table-dark">
         <tr>
@@ -47,14 +50,18 @@
     </tbody>
 </table>
 
+{# Pagination KnpPaginator #}
 <div class="pagination">
     {{ knp_pagination_render(posts) }}
 </div>
 
+{# Si l'utilisateur est connecté #}
 {% if app.user %}
+    {# si le topic est verrouillé ou résolu #}
     {% if topic.locked or topic.resolved %}
         <p class="text-danger">Topic locked or resolved !</p>
     {% else %}
+        {# Afficher le formulaire d'ajout de post dans le topic #}
         <h2>Add a new post</h2>
         {{ form(formAddPost) }}
     {% endif %}
