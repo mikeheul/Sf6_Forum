@@ -4,8 +4,10 @@
 
 {% block body %}
 
+{# Affichage de la catégorie #}
 <h1>{{ category }}</h1>
 
+{# Si aucun topic -> message sinon afficher la liste des topics de la catégorie #}
 {% if topics | length == 0 %}
     <p class="text-danger">No topics in this category !</p>
 {% else %}
@@ -24,28 +26,33 @@
             {% for topic in topics %}
             <tr class="">
                 <td class="text-center">
+                    {# cadenas lock ou open pour connaître le statut du topic #}
                     {% if topic.locked %}
                     <i class="fa-solid fa-lock danger"></i>
                     {% else %}
                     <i class="fa-solid fa-lock-open success"></i>
                     {% endif %}
 
+                    {# check icon pour savoir si un sujet est résolu ou non #}
                     {% if topic.resolved %}
                     <i class="fa-regular fa-circle-check success"></i>
                     {% endif %}
                 </td>
                 <td>
+                    {# titre + auteur + date #}
                     <a href="{{ path("posts", {"id" : topic.id}) }}">{{ topic }}</a><br>by <b>{{ topic.user }}</b> <br>at {{
                     topic.createdAt |
                     date("d-m-Y H:i") }}
                 </td>
                 <td><i class="fa-regular fa-message"></i> {{ topic.posts | length }}</td>
                 <td>
+                    {# afficher le dernier post (15 premiers caractères) #}
                     <i class="fa-regular fa-calendar"></i> {{ topic.posts | last.createdAt | date("d-m-Y H:i") }}<br>
                     {{ topic.posts | last.text | slice(0,15) ~ "..."}}
                     by {{ topic.posts | last.user.pseudo }}
                 </td>
                 <td>
+                    {# verrouiller / déverrouiller un topic si on en est l'auteur #}
                     {% if topic.user == app.user %}
                         {% if not topic.locked %}
                         <a class="btn btn-danger js-lock" href="{{ path("axiosLock_topic", {"id":topic.id}) }}"><i class="fa-solid fa-lock"></i></a>
@@ -53,6 +60,7 @@
                         <a class="btn btn-success js-lock" href="{{ path("axiosUnlock_topic", {"id":topic.id}) }}"><i class="fa-solid fa-lock-open"></i></a>
                         {% endif %}
 
+                        {# affichage des boutons "résoudre / ne pas résoudre" #}
                         {% if not topic.resolved %}
                         <a class="btn btn-success" href="{{ path("solve_topic", {"id":topic.id}) }}">Solve</a> 
                         {% else %}
@@ -61,6 +69,7 @@
                     {% endif %}
                 </td>
                 <td>
+                    {# éditer un topic si on en est l'auteur #}
                     {% if topic.user == app.user %}
                         <a class="btn btn-info-custom" href="{{ path('topic_edit', {id: topic.id}) }}"><i class="fa-regular fa-pen-to-square"></i></a>
                     {% endif %}
@@ -70,13 +79,13 @@
         </tbody>
     </table>
 
+    {# pagination des topics (5 max) #}
     <div class="pagination">
         {{ knp_pagination_render(topics) }}
     </div>
-
 {% endif %}
 
-
+{# si utilisateur connecté -> formulaire d'ajout de topic #}
 {% if app.user %}
     <h2>Add a new topic</h2>
     {{ form(formAddTopic) }}
