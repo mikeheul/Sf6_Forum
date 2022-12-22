@@ -18,24 +18,33 @@ class TopicType extends AbstractType
         $builder
             ->add('title', TextType::class, [
                 "attr" => ["class" => "form-control"]
-            ])
-            // le champ first_message est en mapped false pour éviter une erreur pour l'objet Topic (qui ne possède pas d'attribut "first_message")
-            ->add('first_message', TextareaType::class, [
-                "mapped" => false,
-                "attr" => [
-                    "class" => "form-control",
-                    "rows" => 8    
-                ]
-            ])
-            ->add('add', SubmitType::class, [
-                "attr" => ["class" =>  "btn btn-success mt-3 mb-3"]
             ]);
+            // le champ first_message est en mapped false pour éviter une erreur pour l'objet Topic (qui ne possède pas d'attribut "first_message")
+            if(!$options['edit']){
+                $builder->add('first_message', TextareaType::class, [
+                    "mapped" => false,
+                    "attr" => [
+                        "class" => "form-control",
+                        "rows" => 8    
+                    ]
+                ]);
+            }
+            if(!$options['edit']){
+                $builder->add('add', SubmitType::class, [
+                    "attr" => ["class" =>  "btn btn-success mt-3 mb-3"]
+                ]);
+            } else {
+                $builder->add('edit', SubmitType::class, [
+                    "attr" => ["class" =>  "btn btn-success mt-3 mb-3"]
+                ]);
+            }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Topic::class,
+            'edit' => false
         ]);
     }
 }

@@ -17,6 +17,7 @@
                 <th scope="col" class="">Posts</th>
                 <th scope="col" class="">Last Post</th>
                 <th scope="col" class="">Actions</th>
+                <th scope="col" class="">Edit</th>
             </tr>
         </thead>
         <tbody>
@@ -57,6 +58,11 @@
                         {% else %}
                         <a class="btn btn-danger" href="{{ path("unsolve_topic", {"id":topic.id}) }}">Unsolve</a>    
                         {% endif %}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if topic.user == app.user %}
+                        <a href="{{ path('topic_edit', {id: topic.id}) }}">Edit</a>
                     {% endif %}
                 </td>
             </tr>

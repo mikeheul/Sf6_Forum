@@ -70,6 +70,26 @@ class ForumController extends AbstractController
     }
 
     /**
+     * Editer un topic (ne pas afficher le textarea du 1er message dans le cas de l'édition)
+     */
+    #[Route('/forum/topic/edit/{id}', name: 'topic_edit')]
+    public function editTopic(ManagerRegistry $doctrine, Topic $topic, Request $request): Response
+    {
+        $form = $this->createForm(TopicType::class, $topic, ['edit' => true]);
+        $em = $doctrine->getManager();
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+            return $this->redirectToRoute('topics', ['id' => $topic->getCategory()->getId()]);
+        }
+
+        return $this->render('forum/edit_topic.html.twig', [
+            'formEditTopic' => $form->createView(),
+        ]);
+    }
+
+    /**
      * Afficher les posts en fonction du topic
      */
     #[Route('/forum/posts/{id}', name: 'posts')]
