@@ -62,7 +62,7 @@
                 </td>
                 <td>
                     {% if topic.user == app.user %}
-                        <a href="{{ path('topic_edit', {id: topic.id}) }}">Edit</a>
+                        <a class="btn btn-warning" href="{{ path('topic_edit', {id: topic.id}) }}"><i class="fa-regular fa-pen-to-square"></i></a>
                     {% endif %}
                 </td>
             </tr>
