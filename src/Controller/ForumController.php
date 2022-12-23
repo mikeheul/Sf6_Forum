@@ -75,18 +75,23 @@ class ForumController extends AbstractController
     #[Route('/forum/topic/edit/{id}', name: 'topic_edit')]
     public function editTopic(ManagerRegistry $doctrine, Topic $topic, Request $request): Response
     {
-        $form = $this->createForm(TopicType::class, $topic, ['edit' => true]);
-        $form->handleRequest($request);
-        
-        if($form->isSubmitted() && $form->isValid()) {
-            $em = $doctrine->getManager();
-            $em->flush();
-            return $this->redirectToRoute('topics', ['id' => $topic->getCategory()->getId()]);
+        // éditer le topic uniquement si on en est l'auteur
+        if($topic->getUser() == $this->getUser()) {
+            $form = $this->createForm(TopicType::class, $topic, ['edit' => true]);
+            $form->handleRequest($request);
+            
+            if($form->isSubmitted() && $form->isValid()) {
+                $em = $doctrine->getManager();
+                $em->flush();
+                return $this->redirectToRoute('topics', ['id' => $topic->getCategory()->getId()]);
+            }
+    
+            return $this->render('forum/edit_topic.html.twig', [
+                'formEditTopic' => $form->createView(),
+            ]);
+        } else {
+            return $this->redirectToRoute("app_home");
         }
-
-        return $this->render('forum/edit_topic.html.twig', [
-            'formEditTopic' => $form->createView(),
-        ]);
     }
 
     /**
@@ -131,8 +136,8 @@ class ForumController extends AbstractController
     {
         // si le topic existe
         if($topic) {
-            // si l'utilisateur est connecté
-            if($this->getUser()) {
+            // si l'utilisateur est connecté et s'il est l'auteur du topic
+            if($this->getUser() && $topic->getUser() == $this->getUser()) {
                 // false -> true
                 $topic->setLocked(true);
                 $em = $doctrine->getManager();
@@ -152,7 +157,8 @@ class ForumController extends AbstractController
     public function unlockTopic(ManagerRegistry $doctrine, Topic $topic = null, Request $request): Response
     {
         if($topic) {
-            if($this->getUser()) {
+           // si l'utilisateur est connecté et s'il est l'auteur du topic
+            if($this->getUser() && $topic->getUser() == $this->getUser()) {
                 $topic->setLocked(false);
                 $em = $doctrine->getManager();
                 $em->flush();
@@ -171,7 +177,8 @@ class ForumController extends AbstractController
     public function solveTopic(ManagerRegistry $doctrine, Topic $topic = null, Request $request): Response
     {
         if($topic) {
-            if($this->getUser()) {
+            // si l'utilisateur est connecté et s'il est l'auteur du topic
+            if($this->getUser() && $topic->getUser() == $this->getUser()) {
                 $topic->setResolved(true);
                 $em = $doctrine->getManager();
                 $em->flush();
@@ -190,7 +197,8 @@ class ForumController extends AbstractController
     public function unsolveTopic(ManagerRegistry $doctrine, Topic $topic = null, Request $request): Response
     {
         if($topic) {
-            if($this->getUser()) {
+            // si l'utilisateur est connecté et s'il est l'auteur du topic
+            if($this->getUser() && $topic->getUser() == $this->getUser()) {
                 $topic->setResolved(false);
                 $em = $doctrine->getManager();
                 $em->flush();
@@ -209,7 +217,8 @@ class ForumController extends AbstractController
     public function axioLockTopic(ManagerRegistry $doctrine, Topic $topic = null, Request $request): Response
     {
         if($topic) {
-            if($this->getUser()) {
+            // si l'utilisateur est connecté et s'il est l'auteur du topic
+            if($this->getUser() && $topic->getUser() == $this->getUser()) {
                 $topic->setLocked(true);
                 $em = $doctrine->getManager();
                 $em->flush();
@@ -233,7 +242,8 @@ class ForumController extends AbstractController
     public function axioUnlockTopic(ManagerRegistry $doctrine, Topic $topic = null, Request $request): Response
     {
         if($topic) {
-            if($this->getUser()) {
+            // si l'utilisateur est connecté et s'il est l'auteur du topic
+            if($this->getUser() && $topic->getUser() == $this->getUser()) {
                 $topic->setLocked(false);
                 $em = $doctrine->getManager();
                 $em->flush();
